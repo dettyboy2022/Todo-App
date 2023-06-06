@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/local%20storage/localstorage.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -8,10 +9,32 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List<String> tasks = [];
+  save() {
+    LocalStorageMethods.saveTask([]);
+  }
+
+  // String? myString;
+
+  // save() async {
+  //   await LocalStorageMethods.saveTask('Daily Task');
+  // }
+
+  // get() async {
+  //   myString = await LocalStorageMethods.getTask();
+  //   setState(() {});
+  // }
+
   bool isClicked = false;
-  List tasks = [];
+
   TextEditingController controller = TextEditingController();
   TextEditingController editingController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +82,9 @@ class _HomeState extends State<Home> {
                     'Today"s Task :',
                     style: TextStyle(fontSize: 18),
                   ),
+                  // Text(myString ?? 'show this'),
+                  // ElevatedButton(onPressed: get, child: const Text('GET')),
+                  // ElevatedButton(onPressed: save, child: const Text('SAVE')),
                   ListView.builder(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 0, vertical: 10),
@@ -73,15 +99,7 @@ class _HomeState extends State<Home> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8)),
                               tileColor: Colors.blue[200],
-                              leading: Checkbox(
-                                activeColor: Colors.blue[300],
-                                value: isClicked,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isClicked = value!;
-                                  });
-                                },
-                              ),
+                              leading: Text('${index + 1}'),
                               title: Text(tasks[index]),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -97,15 +115,14 @@ class _HomeState extends State<Home> {
                                       onPressed: () {
                                         showEditDialog(index);
                                         setState(() {
-                                          editingController.text =
-                                              editTasks as String;
+                                          editingController.text = editTasks;
                                         });
                                       },
                                       icon: const Icon(Icons.edit))
                                 ],
                               )),
                         );
-                      })
+                      }),
                 ],
               ),
             ),
@@ -153,6 +170,7 @@ class _HomeState extends State<Home> {
                                       borderRadius: BorderRadius.circular(5)),
                                   minimumSize: const Size(150, 50)),
                               onPressed: () {
+                                save();
                                 setState(() {
                                   tasks.add(controller.text);
                                   Navigator.pop(context);
@@ -186,7 +204,18 @@ class _HomeState extends State<Home> {
                 const SizedBox(
                   height: 25,
                 ),
-                ElevatedButton(onPressed: () {}, child: const Text('Edit'))
+                OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(150, 50),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5))),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      setState(() {
+                        tasks[id] = editingController.text;
+                      });
+                    },
+                    child: const Text('Save Edit'))
               ],
             ),
           );

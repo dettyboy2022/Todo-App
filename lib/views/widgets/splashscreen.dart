@@ -24,13 +24,22 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.black12,
       body: Center(
-        child: Text(
-          'ToDo A P P',
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.grey),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.network(
+                'https://assets7.lottiefiles.com/packages/lf20_OP3TACqpO6.json'),
+            const Text(
+              'ToDo A P P',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey),
+            ),
+          ],
         ),
       ),
     );
