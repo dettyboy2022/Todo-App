@@ -1,31 +1,17 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocalStorageMethods {
-  static saveTask(List<String> list) async {
-    final prefs = await SharedPreferences.getInstance();
+class StorageMethods {
+  static const String taskList = 'tasks';
 
-    await prefs.setStringList('listkey', []);
+  // save tasks
+  static Future<void> saveTasks(List<String> tasks) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(taskList, tasks);
   }
 
-  // static getTask() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   List<String> listkey = prefs.setStringList('listkey') ?? [];
-  // }
-
-  // static Future<bool> saveTask(String todo) async {
-  //   final prefs = await SharedPreferences.getInstance();
-
-  //   bool res = await prefs.setString('saveTodo', todo);
-
-  //   return res;
-  // }
-
-  // static Future<String?> getTask() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   String? res;
-  //   if (prefs.containsKey('saveTodo')) {
-  //     res = prefs.getString('saveTodo');
-  //   }
-  //   return res;
-  // }
+  // get tasks
+  static Future<List<String>> getTasks() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(taskList) ?? [];
+  }
 }
